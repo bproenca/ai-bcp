@@ -14,17 +14,17 @@ import java.time.LocalDateTime;
 @RequestMapping("/api")
 public class ChatController {
 
-    private final ChatClient chatClient;
+    private final ChatClient planiChatClient;
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
     public ChatController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+        this.planiChatClient = chatClientBuilder.build();
     }
 
     @GetMapping("/chat")
     public String chat(@RequestParam("message") String message) {
         log.info("Chat for message {}", message);
-        return chatClient.prompt(message).call().content();
+        return planiChatClient.prompt(message).call().content();
     }
 
     @GetMapping("/ping")
