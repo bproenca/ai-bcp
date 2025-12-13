@@ -14,8 +14,11 @@ public class ChatClientConfig {
 
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
-        ChatOptions chatOptions = ChatOptions.builder().model("gpt-4o-mini")
-                .temperature(0.8).build();
+        ChatOptions chatOptions = ChatOptions.builder()
+                .model("gpt-4o-mini")
+                //.temperature(0.8)
+                //.maxTokens(10)
+                .build();
 
         return chatClientBuilder
                 .defaultOptions(chatOptions)
