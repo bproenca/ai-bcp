@@ -20,7 +20,6 @@ import java.util.Map;
 public class ChatController {
 
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
-
     private final OCICohereChatModel chatModel;
 
     @Autowired
@@ -30,6 +29,7 @@ public class ChatController {
 
     @GetMapping("/ai/generate")
     public Map generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+        log.info(">>> Calling cohere with message {}", message);
         return Map.of("generation", chatModel.call(message));
     }
 
