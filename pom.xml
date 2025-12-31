@@ -25,7 +25,12 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-openai</artifactId>
+            <artifactId>spring-ai-starter-model-oci-genai</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.oci.sdk</groupId>
+            <artifactId>oci-java-sdk-generativeaiinference</artifactId>
+            <version>3.67.3</version>
         </dependency>
 
         <dependency>

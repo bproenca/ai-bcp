@@ -2,34 +2,40 @@ package com.github.bproenca.aibcp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.oci.cohere.OCICohereChatModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class ChatController {
 
-    private final ChatClient chatClient;
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    public ChatController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    private final OCICohereChatModel chatModel;
+
+    @Autowired
+    public ChatController(OCICohereChatModel chatModel) {
+        this.chatModel = chatModel;
     }
 
-    @GetMapping("/chat")
-    public String chat(@RequestParam("message") String message) {
-        log.info("Chat for message {}", message);
-        return chatClient.prompt(message).call().content();
+    @GetMapping("/ai/generate")
+    public Map generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+        return Map.of("generation", chatModel.call(message));
     }
 
-    @GetMapping("/ping")
-    public String chat() {
-        log.info("Ping at {}", LocalDateTime.now());
-        return "pong: " + LocalDateTime.now();
+    @GetMapping("/ai/generateStream")
+    public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+        var prompt = new Prompt(new UserMessage(message));
+        return chatModel.stream(prompt);
     }
 }
