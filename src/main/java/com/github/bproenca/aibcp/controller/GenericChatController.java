@@ -1,19 +1,9 @@
 package com.github.bproenca.aibcp.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import com.oracle.bmc.ClientConfiguration;
-import com.oracle.bmc.ConfigFileReader;
-import com.oracle.bmc.auth.AuthenticationDetailsProvider;
-import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
 import com.oracle.bmc.generativeaiinference.GenerativeAiInferenceClient;
 import com.oracle.bmc.generativeaiinference.model.*;
 import com.oracle.bmc.generativeaiinference.requests.ChatRequest;
 import com.oracle.bmc.generativeaiinference.responses.ChatResponse;
-import com.oracle.bmc.retrier.RetryConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")

@@ -28,7 +28,7 @@ public class ChatController {
     }
 
     @GetMapping("/ai/generate")
-    public Map generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+    public Map<String, String> generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
         log.info(">>> Calling cohere with message {}", message);
         return Map.of("generation", chatModel.call(message));
     }
