@@ -1,35 +1,30 @@
 package com.github.bproenca.aibcp.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-
 @RestController
 @RequestMapping("/api")
 public class ChatController {
 
-    private final ChatClient planiChatClient;
-    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+    private final ChatClient chatClient;
 
     public ChatController(ChatClient.Builder chatClientBuilder) {
-        this.planiChatClient = chatClientBuilder.build();
+        ChatOptions chatOptions = ChatOptions.builder()
+                //.model("gpt-4o-mini")
+                .model("gemini/gemini-2.5-flash-lite")
+                .build();
+        this.chatClient = chatClientBuilder
+                .defaultOptions(chatOptions)
+                .build();
     }
 
     @GetMapping("/chat")
     public String chat(@RequestParam("message") String message) {
-        log.info("Chat for message {}", message);
-        return planiChatClient.prompt(message).call().content();
-    }
-
-    @GetMapping("/ping")
-    public String chat() {
-        log.info("Ping at {}", LocalDateTime.now());
-        return "pong: " + LocalDateTime.now();
+        return chatClient.prompt().user(message).call().content();
     }
 }
